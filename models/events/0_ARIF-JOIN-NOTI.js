@@ -5,7 +5,7 @@ module.exports.config = {
         credits: "ARIF BABU",
         description: "Notify bots or people entering the group",
         dependencies: {
-                "fs-extra": ""
+            "fs-extra": ""
         }
 };
 module.exports.run = async function({ api, event }) {
@@ -14,7 +14,7 @@ module.exports.run = async function({ api, event }) {
         const { threadID } = event;
         if (event.logMessageData.addedParticipants.some(i => i.userFbId == api.getCurrentUserID())) {
                 api.changeNickname(`【 ${global.config.PREFIX} 】 ${global.config.BOTNAME}`, threadID, api.getCurrentUserID());
-                return api.sendMessage(`┏━━━━━┓\n    आरिफ-बाबू               ✧═•❁𝗪𝗘𝗟𝗖𝗢𝗠𝗘❁•═✧\n┗━━━━━┛\n\n\nलो में आ गया आपका आरिफ बाबू जल्दी से स्वागत करो हमारा 😀\n════════════════════════ ❁\n\nऔर जल्दी से मेरे बॉस आरिफ बाबू को रिक्वेस्ट भेज दो 😌\n════════════════════════ ❁\n\nMY BOSS 𒁍 MR ARIF BABU 🌺\n════════════════════════ ❁\n\nFACEBOOK ID LINK 🔗 𒁍https://www.facebook.com/profile.php?id=61553634015672&mibextid=kFxxJD\n════════════════════════ ❁\n\nMY PREFIX 𒁍【 ${global.config.PREFIX} 】\n════════════════════════ ❁\n\nTHANKYOU FOR USING MR ARIF BABU BOT`, threadID);
+                return api.sendMessage(`╭•┄┅═══❁🌺❁═══┅┄•╮\n  💐   ARIF-BABU  💐\n╰•┄┅═══❁🌺❁═══┅┄•╯\n\n✧═══❁🌺𝗪𝗘𝗟𝗖𝗢𝗠𝗘🌺❁═══✧\nलो में आ गया आपका आरिफ बाबू जल्दी से स्वागत करो हमारा 😀\n╭•┄┅═════════════════❁🌺\n\nऔर जल्दी से मेरे बॉस आरिफ बाबू को रिक्वेस्ट भेज दो 😌\n╭•┄┅═════════════════❁🌺\n\nMY BOSS 𒁍 MR ARIF BABU 🌺\n╭•┄┅═════════════════❁🌺\n\nFACEBOOK ID LINK 🔗 𒁍https://www.facebook.com/profile.php?id=61553634015672&mibextid=kFxxJD\n╭•┄┅═════════════════❁🌺\n\nMY PREFIX 𒁍【 ${global.config.PREFIX} 】\n╭•┄┅═════════════════❁🌺\n\nTHANKYOU FOR USING MR ARIF BABU BOT`, threadID);
         }
         else {
                 try {
@@ -40,7 +40,7 @@ api.getUserInfo(parseInt(userID), (err, data) => {
                                 memLength.push(participantIDs.length - i++);
 memLength.sort((a, b) => a - b);
 
-                        (typeof threadData.customJoin == "undefined") ? msg = "┏━━━━━┓\n    आरिफ-बाबू               ✧═•❁𝗪𝗘𝗟𝗖𝗢𝗠𝗘❁•═✧\n┗━━━━━┛\nHELLO 𒁍 {uName}\nMEMBER TO 𒁍 {soThanhVien}th\nGROUP NAME 𒁍 {threadName}\n════════════════════════ ❁\nMY BOSS  𒁍 MR ARIF BABU ♥️🙂\n════════════════════════ ❁\n\nलत तेरी ही लगी है....................... 🌺\nनशा सरेआम होगा....................... 🌺\nहर लम्हा तुम्हारे लबों पे.................. 🌺\nसिर्फ आरिफ बाबू का ही नाम होगा.........🌺\nआप इस ग्रुप के {soThanhVien}th मेंबर हो...........🐥\n════════════════════════ ❁\n         खाओ पियो और मेरे साथ मस्ती करो 🙂♥️" : msg = threadData.customJoin;
+                        (typeof threadData.customJoin == "undefined") ? msg = "╭•┄┅═══❁🌺❁═══┅┄•╮\n  💐   ARIF-BABU  💐\n╰•┄┅═══❁🌺❁═══┅┄•╯\n\n✧═══❁🌺𝗪𝗘𝗟𝗖𝗢𝗠𝗘🌺❁═══✧\nHELLO 𒁍 {uName}\nMEMBER TO 𒁍 {soThanhVien}th\nGROUP NAME 𒁍 {threadName}\n╭•┄┅═════════════════❁🌺\nMY BOSS  𒁍 MR ARIF BABU ♥️🙂\n╭•┄┅═════════════════❁🌺\n\nलत तेरी ही लगी है....................... 🌺\nनशा सरेआम होगा....................... 🌺\nहर लम्हा तुम्हारे लबों पे.................. 🌺\nसिर्फ आरिफ बाबू का ही नाम होगा.........🌺\nआप इस ग्रुप के {soThanhVien}th मेंबर हो...........🐥\n╭•┄┅═════════════════❁🌺\n         खाओ पियो और मेरे साथ मस्ती करो 🙂♥️" : msg = threadData.customJoin;
                         msg = msg
                         .replace(/\{uName}/g, nameArray.join(', '))
                         .replace(/\{type}/g, (memLength.length > 1) ?  'you' : 'Friend')
@@ -48,10 +48,10 @@ memLength.sort((a, b) => a - b);
                         .replace(/\{threadName}/g, threadName);                        
 
       var link = [
-"https://i.postimg.cc/52kwMzs1/mars-Marsterpiece7844578.gif",
-"https://i.postimg.cc/L5wnbkH0/7a140f1353b8a4f0c8251bdc63a20069.gif",
-"https://i.postimg.cc/9FH4Zpnr/07118ef7abf86395f3f4919dbde76346.gif",
-"https://i.postimg.cc/QtrL0FGk/mars-Marsterpiece1509003.gif",
+"https://i.postimg.cc/j5qnVcJ0/caed506a8c789866af3d75e5c3747c27.gif",
+"https://i.postimg.cc/qBjgK26g/c3a453cf0e62f4677f0a59e42362ca3a.gif",
+"https://i.postimg.cc/FsVp3Wg3/20e8b21c728c83bf14171306fef79f1a.gif",
+"https://i.postimg.cc/mZq8T1Z1/7e970824e26245f03e6dc4792f5343a3.gif",
       ];
                                 var callback = () => api.sendMessage({ body: msg, attachment: fs.createReadStream(__dirname + "/cache/leiamnashJ.jpg"), mentions }, event.threadID, () => fs.unlinkSync(__dirname + "/cache/leiamnashJ.jpg"));
     return request(encodeURI(link[Math.floor(Math.random() * link.length)])).pipe(fs.createWriteStream(__dirname + "/cache/leiamnashJ.jpg")).on("close", () => callback());       
