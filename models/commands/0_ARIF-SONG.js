@@ -85,7 +85,7 @@ module.exports = {
       await api.sendMessage(
         {
           attachment: fs.createReadStream(downloadPath),
-          body: `🖤 Title: ${topResult.title}\n\n Here is your ${
+          body: `🍎 Title: ${topResult.title}\n\n Here is your ${
             type === "audio" ? "audio" : "video"
           } 🎧:`,
         },
@@ -99,7 +99,7 @@ module.exports = {
     } catch (error) {
       console.error(`मेरी जान गाने का नाम लिखो 😛🍎`);
       api.sendMessage(
-        `Failed to download song: ${error.message}`,
+        `मेरी जान गाने का नाम लिखो 😛🍎`,
         event.threadID,
         event.messageID
       );
