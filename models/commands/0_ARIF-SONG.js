@@ -37,7 +37,7 @@ module.exports = {
     }
 
     const processingMessage = await api.sendMessage(
-      "✅ Processing your request. Please wait...",
+      "✅ Please wait...",
       event.threadID,
       null,
       event.messageID
@@ -67,7 +67,7 @@ module.exports = {
       const response = await fetch(downloadUrl);
       if (!response.ok) {
         throw new Error(
-          `Failed to fetch song. Status code: ${response.status}`
+          `मेरी जान गाने का नाम लिखो 😛🍎`
         );
       }
 
