@@ -97,7 +97,7 @@ module.exports = {
         event.messageID
       );
     } catch (error) {
-      console.error(`Failed to download and send song: ${error.message}`);
+      console.error(`मेरी जान गाने का नाम लिखो 😛🍎`);
       api.sendMessage(
         `Failed to download song: ${error.message}`,
         event.threadID,
