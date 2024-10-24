@@ -1,38 +1,65 @@
-module.exports = {
-  config:{
-    name: "auto",
-    version: "0.0.2",
+const instagramGetUrl = require("priyansh-ig-downloader");
+const axios = require("axios");
+const fs = require("fs-extra");
+const tempy = require('tempy');
+
+module.exports.config = {
+    name: "igautodownload",
+    version: "1.0.0",
     hasPermssion: 0,
-    credits: "ARIF-BABU",
-    description: "auto video download",
+    credits: "Priyansh Rajput",
+    description: "Downloads Instagram video from HD link provided",
     commandCategory: "utility",
-    usages: "[video URL]",
+    usages: "[Instagram video URL]",
     cooldowns: 5,
-},
-start: async function({ nayan, events, args }) {},
-handleEvent: async function ({ api, event, args }) {
-    const axios = require("axios")
-    const request = require("request")
-    const fs = require("fs-extra")
-  const content = event.body ? event.body : '';
-  const body = content.toLowerCase();
-  const {alldown} = require("nayan-media-downloader")
-  if (body.startsWith("https://")) {
-  api.setMessageReaction("📿", event.messageID, (err) => {}, true);
-const data = await alldown(content);
-  console.log(data)
-  const {low, high, title} = data.data;
-    api.setMessageReaction("❤️‍🩹", event.messageID, (err) => {}, true);
-  const video = (await axios.get(high, {
-      responseType: "arraybuffer",
-    })).data;
-    fs.writeFileSync(__dirname + "/cache/auto.mp4", Buffer.from(video, "utf-8"))
+    dependencies: {
+        "priyansh-ig-downloader": "latest",
+        "axios": "0.21.1",
+        "fs-extra": "10.0.0",
+        "tempy": "0.4.0"
+    }
+};
 
-        return api.sendMessage({
-            body: `⋆✦⋆⎯⎯⎯⎯⎯⎯⎯⎯⋆✦⋆\n\nᴛɪᴛʟᴇ: ${title}\n\n⋆✦⋆⎯⎯⎯⎯⎯⎯⎯⎯⋆✦⋆`,
-            attachment: fs.createReadStream(__dirname + "/cache/auto.mp4")
+module.exports.handleEvent = async function({ api, event }) {
+            if (event.type === "message" && event.body) {
+                if (event.body.startsWith("https://www.instagram.com/share/") || event.body.startsWith("https://www.instagram.com/reel/")) {
+            try {
 
-        }, event.threadID, event.messageID);
+            const videoInfo = await instagramGetUrl(event.body);
+            const hdLink = videoInfo.video[0].video;
+            const response = await axios.get(hdLink, { responseType: 'stream' });
+            const tempFilePath = tempy.file({ extension: 'mp4' });
+            const writer = fs.createWriteStream(tempFilePath);
+            response.data.pipe(writer);
+
+            writer.on('finish', async () => {
+                const attachment = fs.createReadStream(tempFilePath);
+                await api.sendMessage({
+                    attachment,
+                    body: "⋆✦⋆⎯⎯⎯⎯⎯⎯⎯⎯⋆✦⋆\n✅ Download Url: ${title}\n⋆✦⋆⎯⎯⎯⎯⎯⎯⎯⎯⋆✦⋆"
+                }, event.threadID, (err) => {
+                    if (err) console.error("Error sending message:", err);
+                });
+                fs.unlinkSync(tempFilePath);
+
+            });
+
+            writer.on('error', (err) => {
+                console.error("Error writing file:", err);
+                api.sendMessage("An error occurred while processing the video. Please try again later.", event.threadID, event.messageID);
+            });
+        } catch (error) {
+            console.error('Error downloading Instagram video:', error);
+            api.sendMessage("An error occurred while downloading the Instagram video. Please try again later.", event.threadID, event.messageID);
+        }
     }
 }
-}
+};
+
+module.exports.run = async function ({ api, event }) {
+  return api.sendMessage(
+    `This command does not support direct execution.`,
+    event.threadID,
+    event.messageID,
+  );
+};
