@@ -9,7 +9,6 @@ module.exports.config = {
   credits: ARIF_BABU,
   description: "THIS BOT WAS MADE BY MR ARIF BABU",
   commandCategory: "user",
-  usePrefix: false,
   usages: "wallpaper", 
   cooldowns: 5
 };
