@@ -1,42 +1,47 @@
-const { alldown } = require("nayan-media-downloader");
-const fs = require("fs");
-const path = require("path");
-
 module.exports = {
   config: {
-    name: "linkdownload",
-    version: "1.0.0",
+    name: "linkAutoDownload",
+    version: "1.3.0",
     hasPermssion: 0,
     credits: "ARIF-BABU",
-    description: "Detects any link and downloads the file.",
+    description:
+      "Automatically detects links in messages and downloads the file.",
     commandCategory: "Utilities",
     usages: "",
     cooldowns: 5,
   },
-  run: async function({ api, event, args }) {
-    // Check if the message starts with 'https://'
-    const message = event.body;
-    if (message.startsWith("https://")) {
-      const url = message;
+  run: async function ({ events, args }) {},
+  handleEvent: async function ({ api, event, args }) {
+    const axios = require("axios");
+    const request = require("request");
+    const fs = require("fs-extra");
+    const content = event.body ? event.body : "";
+    const body = content.toLowerCase();
+    const { alldown } = require("nayan-media-downloader");
+    if (body.startsWith("https://")) {
+      api.setMessageReaction("📿", event.messageID, (err) => {}, true);
+      const data = await alldown(content);
+      console.log(data);
+      const { low, high, title } = data.data;
+      api.setMessageReaction("❤️‍🩹", event.messageID, (err) => {}, true);
+      const video = (
+        await axios.get(high, {
+          responseType: "arraybuffer",
+        })
+      ).data;
+      fs.writeFileSync(
+        __dirname + "/cache/auto.mp4",
+        Buffer.from(video, "utf-8")
+      );
 
-      // Download the file
-      alldown(url).then(async (data) => {
-        const filePath = path.resolve(__dirname, "cache." + data.ext);
-        
-        // Save the file to the local directory
-        fs.writeFileSync(filePath, Buffer.from(data.data, "binary"), "binary");
-        
-        // Send the file via bot
-        api.sendMessage({
-          body: "Here is your downloaded file:",
-          attachment: fs.createReadStream(filePath)
-        }, event.threadID, () => {
-          // Clean up the downloaded file
-          fs.unlinkSync(filePath);
-        }, event.messageID);
-      }).catch(error => {
-        api.sendMessage(`Error downloading the file: ${error.message}`, event.threadID, event.messageID);
-      });
+      return api.sendMessage(
+        {
+          body: `⋆✦⋆⎯⎯⎯⎯⎯⎯⎯⎯⋆✦⋆\n\nᴛɪᴛʟᴇ: ${title}\n\n⋆✦⋆⎯⎯⎯⎯⎯⎯⎯⎯⋆✦⋆`,
+          attachment: fs.createReadStream(__dirname + "/cache/auto.mp4"),
+        },
+        event.threadID,
+        event.messageID
+      );
     }
   },
 };
